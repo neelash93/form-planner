@@ -7,7 +7,29 @@
   padding-top: 50px;
 }
 
+.reds {
+  color: white;
+  background-color: darkred;
+}
 
+.blues {
+  background-color: lightblue;
+}
+
+.enableds {
+
+}
+
+.disableds {
+  text-decoration: line-through;
+}
+
+
+@media screen and (min-width: 520px) {
+  .rightorbottom {
+    float: right;
+  }
+}
 /*
  * Global add-ons
  */
@@ -117,7 +139,7 @@ span.glyphicon {
 
 /*
 * Nav with underline
-*/ 
+*/
 .nav-pills > .active > a,
 .nav-pills > .active > a:hover,.nav-pills > li > a:hover {
   border-radius:0px;
