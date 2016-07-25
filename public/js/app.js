@@ -93,8 +93,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
         $scope.available= false;
         $scope.listed[$scope.currindex].constraints.push($scope.tempconst);
         $scope.addtograph($scope.tempconst, $scope.tempconst.quantity);
-        $scope.startindex = 70;
-        $scope.looptill = 70;
+        $scope.startindex = 99;
+        $scope.looptill = 99;
 
     }
     };
@@ -170,6 +170,9 @@ controller('ListCtrl', function($scope, $filter, $http) {
     };
 
     $scope.editcnst = function(index) {
+      $scope.addtograph($scope.listed[$scope.currindex].constraints[index], -$scope.listed[$scope.currindex].constraints[index].quantity);
+      $scope.startindex = 99;
+      $scope.looptill = 99;
       console.log("edit executing");
       $scope.tempfrom = $filter('date')($scope.newfrom, "yyyy-MM");
       $scope.tempto = $filter('date')($scope.newto, "yyyy-MM");
@@ -181,6 +184,9 @@ controller('ListCtrl', function($scope, $filter, $http) {
       $scope.listed[$scope.currindex].constraints[index].months = $scope.getmonthdiff();
       $scope.listed[$scope.currindex].constraints[index].available = $scope.available;
       console.log($scope.listed[$scope.currindex].constraints[index]);
+      $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.listed[$scope.currindex].constraints[index].quantity);
+      $scope.startindex = 99;
+      $scope.looptill = 99;
       jq('#addcnst').modal('hide');
       $scope.newtype='';
       $scope.newto='';
@@ -261,7 +267,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
       // console.log($scope.edit);
     });
 
-//Updating Graph Functions
+//Updating Graph Function
 
     $scope.addtograph = function(record, quantity) {
         angular.forEach($scope.graphdata[record.typeid], function(item) {
