@@ -133,6 +133,9 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $scope.delact = function(index) {
       console.log($scope.listed[index]);
       $scope.selected = 0;
+      angular.forEach($scope.listed[index].constraints, function(item) {
+        $scope.delcnst($scope.listed[index].constraints.indexOf(item));
+      });
       $scope.listed.splice(index, 1);
       $scope.currindex = '';  // Have to add more to function. Delete all constraints and free resources
 
