@@ -11,6 +11,7 @@
 
 	<script src="/js/d3.min.js"></script>
 	<script src="/js/angular.min.js"></script>
+
 	<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular.min.js"></script> -->
 	<title>ACT Form Planner</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-3.3.6-dist/css/bootstrap.css">
@@ -311,6 +312,8 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">Usage</h1>
 				<div id="usage" style="overflow:scroll"/>
+				
+				<stack-chart data="graphdata"></stack-chart>
 			</div>
 		</div>
 	</div>
@@ -321,7 +324,8 @@
 	<script src="/stylesheets/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="/js/ie10-viewport-bug-workaround.js"></script>
-	<script src="/js/fp.js"></script>
+	<!-- <script src="/js/fp.js"></script> -->
 	<script src="/js/app.js"></script>
+	<script src="/js/directive.js"></script>
 </body>
 </html>
