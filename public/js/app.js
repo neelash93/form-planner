@@ -1,6 +1,7 @@
 var jq = $.noConflict();
-var app = angular.module('myApp', []).
+var app = angular.module('myApp', ['formvisual']).
 controller('ListCtrl', function($scope, $filter, $http) {
+
 
 //temp variables needed
     $scope.available=false;
