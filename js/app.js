@@ -1,8 +1,19 @@
-var jq = $.noConflict();
-var app = angular.module('myApp', []).
+(function(angular) { 
+  'use strict';
+var app = angular.module('myApp', ['formvisual']).
+
 controller('ListCtrl', function($scope, $filter, $http) {
     // $scope.data = $window.data;
     // console.log(data);
+ 
+    $scope.data = [
+    [ {"y":"1","label":"Red","color":"pink","id":"2016-06"},  {"y":"6","label":"Red","color":"pink"},  {"y":"-3","label":"Red","color":"pink"},{"y":"3","label":"Red","color":"pink"},  {"y":"6","label":"Red","color":"pink"},  {"y":"-3","label":"Red","color":"pink"},{"y":"3","label":"Red","color":"pink"},  {"y":"6","label":"Red","color":"pink"},  {"y":"-3","label":"Red","color":"pink"}, {"y":"3","label":"Red","color":"pink"},  {"y":"6","label":"Red","color":"pink"},  {"y":"-3","label":"Red","color":"pink"} ],
+    [ {"y":"4","label":"Blue","color":"lightblue"},  {"y":"-2","label":"Blue","color":"lightblue"}, {"y":"-9","label":"Blue","color":"lightblue"},{"y":"4","label":"Blue","color":"lightblue"},  {"y":"-2","label":"Blue","color":"lightblue"}, {"y":"-9","label":"Blue","color":"lightblue"} ,{"y":"4","label":"Blue","color":"lightblue"},  {"y":"-2","label":"Blue","color":"lightblue"}, {"y":"-9","label":"Blue","color":"lightblue"} , {"y":"4","label":"Blue","color":"lightblue"},  {"y":"-2","label":"Blue","color":"lightblue"}, {"y":"-9","label":"Blue","color":"lightblue"}  ],
+    [ {"y":"10","label":"White","color":"lightgray"}, {"y":"-3","label":"White","color":"lightgray"}, {"y":"4","label":"White","color":"lightgray"}, {"y":"10","label":"White","color":"lightgray"}, {"y":"-3","label":"White","color":"lightgray"}, {"y":"4","label":"White","color":"lightgray"}, {"y":"10","label":"White","color":"lightgray"}, {"y":"-3","label":"White","color":"lightgray"}, {"y":"4","label":"White","color":"lightgray"}, {"y":"10","label":"White","color":"lightgray"}, {"y":"-3","label":"White","color":"lightgray"}, {"y":"4","label":"White","color":"lightgray"}  ]
+    ]
+  
+    
+
     $scope.listed = [
       {
         "name": "Activity 1",
@@ -383,4 +394,5 @@ directive('ngConfirmClick', [
                     });
                 }
             };
-    }])
+    }]);
+})(window.angular);

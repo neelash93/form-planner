@@ -1,7 +1,7 @@
 
-/*
+/* 
 	an iteration on this bl.ock
-	http://bl.ocks.org/ZJONSSON/2975320
+	http://bl.ocks.org/ZJONSSON/2975320 
 	barStack - stacking with negative values
 */
 
@@ -26,8 +26,8 @@ function barStack(seriesData) {
 	seriesData.extent = d3.extent(
 		d3.merge(
 			d3.merge(
-				seriesData.map(function(e) {
-					return e.map(function(f) { return [f.y0,f.y0-f.size] })
+				seriesData.map(function(e) { 
+					return e.map(function(f) { return [f.y0,f.y0-f.size] }) 
 				})
 			)
 		)
@@ -47,9 +47,8 @@ d3.json("/ajax/usage.json", function(error, json) {
   if (error) return console.warn(error);
   data = json;
   d3.json("/ajax/dates.json", function(error1, json1) {
-    if (error1) return console.warn(error1);
+    if (error1) return console.warn(error1);  
     dates = json1;
-
 
 var h = 500;
 var w = 800;
@@ -105,7 +104,7 @@ svg.selectAll(".series")
   		});
 
 //console.log("y(0)", y(0));
-//console.log("margin", margin);
+//console.log("margin", margin); 
 
 svg.append("g")
 	.attr("class", "axis x")
@@ -123,7 +122,7 @@ svg.append("g")
 var tooltipz = svg.append("g")
   .attr("class", "tooltipz")
   .style("display", "none");
-
+    
 tooltipz.append("rect")
   .attr("width", 0)
   .attr("height", 20)
@@ -147,3 +146,5 @@ tooltipz.append("text")
     $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
   });
 })(jQuery);
+
+	
