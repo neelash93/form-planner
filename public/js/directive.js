@@ -2,10 +2,9 @@
   'use strict';
 angular.module('formvisual', [])
 .directive("stackChart",function(){  
-  console.log("JERJEEJE")
-    return {      
+    return {
       restrict:'E',
-      scope: { 
+      scope: {
         data: '='
       },
       link: function(scope, element, attrs) {
@@ -23,11 +22,11 @@ angular.module('formvisual', [])
                   .attr("width", w)
 
         scope.$watch('data', function(newVals, oldVals) {
-          scope.render(newVals);   
+          scope.render(newVals);
         }, true);
         scope.render = function(data){
-         
-        // setup x 
+
+        // setup x
         svg.selectAll("*").remove();
         var x = d3.scale.ordinal()
           .domain(dates)
@@ -48,7 +47,7 @@ angular.module('formvisual', [])
                 barStack(data);
                 y.domain(data.extent);
 
-                
+
                 svg.selectAll(".series")
                   .data(data)
                   .enter()
@@ -74,7 +73,7 @@ angular.module('formvisual', [])
                       });
 
                 //console.log("y(0)", y(0));
-                //console.log("margin", margin); 
+                //console.log("margin", margin);
 
                 svg.append("g")
                   .attr("class", "axis x")
@@ -92,7 +91,7 @@ angular.module('formvisual', [])
                 var tooltipz = svg.append("g")
                   .attr("class", "tooltipz")
                   .style("display", "none");
-                    
+
                 tooltipz.append("rect")
                   .attr("width", 0)
                   .attr("height", 20)
@@ -127,8 +126,8 @@ angular.module('formvisual', [])
                     seriesData.extent = d3.extent(
                       d3.merge(
                         d3.merge(
-                          seriesData.map(function(e) { 
-                            return e.map(function(f) { return [f.y0,f.y0-f.size] }) 
+                          seriesData.map(function(e) {
+                            return e.map(function(f) { return [f.y0,f.y0-f.size] })
                           })
                         )
                       )
@@ -136,7 +135,7 @@ angular.module('formvisual', [])
                   }
           }
 
-      }    
+      }
     }
   });
 })(window.angular);

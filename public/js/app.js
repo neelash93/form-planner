@@ -8,12 +8,16 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $scope.selected = 0;
     $scope.startindex = 99;
     $scope.looptill = 99;
+    $scope.newred='';
+    $scope.newwhite='';
+    $scope.newblue='';
 
 
 //get data from files
     $http.get('/ajax/mainlist.json').
         success(function(data, status, headers, config) {
             $scope.listed=data;
+            $scope.comparelist = data;
             console.log($scope.listed);
         }).error(function(data, status, headers, config) {
     });
@@ -22,10 +26,11 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $http.get('/ajax/graphdata.json').
         success(function(data, status, headers, config) {
             $scope.graphdata=data;
+            $scope.comparegraph=data;
         }).error(function(data, status, headers, config) {
     });
 
-//Save Progress
+//Save Progress && Reset
     $scope.saveall = function () {
       $scope.param = {
         "list": $scope.listed,
@@ -42,6 +47,34 @@ controller('ListCtrl', function($scope, $filter, $http) {
       // console.log(dates);
       // jq('#thisdiv').load(document.URL +  ' #thisdiv');
 
+    };
+
+    $scope.resetall = function() {
+      if($scope.newred == '' || $scope.newred == null) {
+        $scope.newred = 30;
+      }
+      if($scope.newblue == '' || $scope.newblue == null) {
+        $scope.newblue = 30;
+      }
+      if($scope.newwhite == '' || $scope.newwhite == null) {
+        $scope.newwhite = 30;
+      }
+      $scope.arr = [$scope.newred,$scope.newblue,$scope.newwhite];
+      angular.forEach($scope.listed, function(item) {
+        $scope.listed = [];
+      });
+      for(var i=0;i<$scope.graphdata.length;i++)
+      {
+        console.log($scope.arr[i])
+        angular.forEach($scope.graphdata[i], function(item) {
+          item.y = $scope.arr[i];
+        });
+      }
+      $scope.newred='';
+      $scope.newwhite='';
+      $scope.newblue='';
+      jq('#reset').modal('hide');
+      $scope.selected = 0;
     };
 
 
@@ -135,7 +168,10 @@ controller('ListCtrl', function($scope, $filter, $http) {
       console.log($scope.listed[index]);
       $scope.selected = 0;
       angular.forEach($scope.listed[index].constraints, function(item) {
-        $scope.delcnst($scope.listed[index].constraints.indexOf(item));
+        $scope.tempquant = (-1)*(item.quantity);
+        $scope.addtograph(item, $scope.tempquant);
+        $scope.startindex = 99;
+        $scope.looptill = 99;
       });
       $scope.listed.splice(index, 1);
       $scope.currindex = '';  // Have to add more to function. Delete all constraints and free resources
@@ -270,6 +306,12 @@ controller('ListCtrl', function($scope, $filter, $http) {
       $scope.edit = false;
       // console.log($scope.edit);
     });
+
+    window.onbeforeunload = function () {
+    if($scope.comparegraph != $scope.graphdata || $scope.comparelist != $scope.listed) {
+      return '';
+    }
+  };
 
 //Updating Graph Function
 

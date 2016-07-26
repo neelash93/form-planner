@@ -62,7 +62,12 @@
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Scenarios</h1>
+				<div class="col-xs-10 col-lg-11">
+					<h1 class="page-header">Scenarios</h1>
+				</div>
+				<div class="col-xs-2 col-lg-1">
+					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reset">Reset/Set Initial</button>
+				</div>
 
 				<div class="row">
 					<div class="col-md-3">
@@ -105,26 +110,37 @@
 							</div>
 							<div class="list-group">
 								<div ng-repeat="const in listed[currindex].constraints">
-									<p class="list-group-item {{const.type}}s {{const.status}}s"><span ng-if="const.available"><i class="glyphicon glyphicon-refresh" aria-hidden="true"></i> </span> Type: <span ng-if="const.restock"><b>Restock</b></span><span ng-if="!const.restock"><b>Consume</b></span> &emsp; Qty: <b>{{const.quantity}}</b> &emsp; From: <b>{{const.from}}</b> &emsp; To: <b>{{const.to}}</b>
-									<span class="rightorbottom" style="text-align:right">
+									<div class="row list-group-item {{const.type}}s {{const.status}}s">
+										<div class="col-xs-8 col-sm-9">
+											<span ng-if="const.available"><i class="glyphicon glyphicon-refresh" aria-hidden="true"></i> </span> Type: <span ng-if="const.restock"><b>Restock</b></span><span ng-if="!const.restock"><b>Consume</b></span> &emsp; Qty: <b>{{const.quantity}}</b> &emsp; From: <b>{{const.from}}</b> &emsp; To: <b>{{const.to}}</b>
+										</div>
+									<div class="col-xs-4 col-sm-3" style="float:right">
+										<span style="float:right">
 										<button type="button" ng-click="setdisable($index)" class="btn btn-default btn-xs">Disable</button>
 										<button type="button" ng-click="delcnst($index)" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-minus" aria-hidden="true"></i></button>
 										<span ng-show="!const.restock"><button type="button" ng-click="invokeeditcnst($index)" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button></span>
-									</span></p>
+									</span>
+								</div>
 								</div>
 							</div>
+						</div>
 							<hr>
 							<div>
 									<h4>Disabled Constraints</h4>
 							</div>
 							<div class="list-group">
 								<div ng-repeat="discnst in listed[currindex].disabled">
-									<p class="list-group-item {{discnst.type}}s {{discnst.status}}s"><span ng-if="discnst.available"><i class="glyphicon glyphicon-refresh" aria-hidden="true"></i> </span> Type: <span ng-if="discnst.restock"><b>Restock</b></span><span ng-if="!discnst.restock"><b>Consume</b></span> &emsp; Qty: <b>{{discnst.quantity}}</b> &emsp; From: <b>{{discnst.from}}</b> &emsp; To: <b>{{discnst.to}}</b>
-									<!-- <p class="list-group-item {{discnst.type}}s {{discnst.status}}s">Amount: <b>{{discnst.quantity}}</b> &emsp; From: <b>{{discnst.from}}</b> &emsp; To: <b>{{discnst.to}}</b> -->
-									<span class="rightorbottom" style="text-align:right">
+									<div class="row list-group-item reds disableds">
+									<div class="col-xs-8 col-sm-9">
+										<span ng-if="discnst.available"><i class="glyphicon glyphicon-refresh" aria-hidden="true"></i> </span> Type: <span ng-if="discnst.restock"><b>Restock</b></span><span ng-if="!discnst.restock"><b>Consume</b></span> &emsp; Qty: <b>{{discnst.quantity}}</b> &emsp; From: <b>{{discnst.from}}</b> &emsp; To: <b>{{discnst.to}}</b>
+									</div>
+									<div class="col-xs-4 col-sm-3">
+										<span style="float:right">
 										<button type="button" ng-click="setenable($index)" class="btn btn-default btn-xs">Enable</button>
 										<button type="button" ng-click="disableddelcnst($index)" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-minus" aria-hidden="true"></i></button>
-									</span></p>
+										</span>
+									</div>
+									</div>
 								</div>
 							</div>
 						</div> <!-----------End of div class=well----------->
@@ -304,15 +320,68 @@
 	</div>
 </div>
 
+<!-----------------Reset All constraints--------------->
+<div class="modal fade" id="reset" role="dialog">
+	<div class="modal-dialog modal-md">
+
+		<div class="modal-content">
+			<form id="resetall" ng-submit="resetall()">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Reset</h4>
+			</div>
+			<div class="modal-body">
+					<div class="row">
+						<div class="form-group">
+						<div class="col-xs-3 col-sm-3 col-lg-2">
+							<label for="type">Red:</label>
+						</div>
+						<div class="col-xs-6">
+							<input type="number" ng-model="newred" min="1">
+						</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-xs-3 col-lg-2">
+								<label for="quant">Blue:</label>
+							</div>
+							<div class="col-xs-6">
+								<input type="number" ng-model="newblue"  min="1">
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="form-group">
+						<div class="col-xs-3 col-sm-3 col-lg-2">
+							<label for="fromdate">White:</label>
+						</div>
+						<div class="col-xs-6">
+							<input type="number" ng-model="newwhite" min="1">
+						</div>
+						</div>
+					</div>
+					<br>
+				</div>
+			<div class="modal-footer" style="text-align:center">
+				<button type="submit" class="btn btn-primary btn-md">Reset</button>
+			</div>
+		</form>
+		</div>
+	</div>
+</div>
+
 
 
 				</div>
 
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Usage</h1>
+				<h1 class="page-header">Remaining Resources</h1>
 				<div id="usage" style="overflow:scroll"/>
-				
+
 				<stack-chart data="graphdata"></stack-chart>
 			</div>
 		</div>
@@ -324,7 +393,6 @@
 	<script src="/stylesheets/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="/js/ie10-viewport-bug-workaround.js"></script>
-	<!-- <script src="/js/fp.js"></script> -->
 	<script src="/js/app.js"></script>
 	<script src="/js/directive.js"></script>
 </body>
