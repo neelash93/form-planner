@@ -1,5 +1,5 @@
 {
-  "name": "form-planner",
+  "name": "actlabs-form-planner",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,5 +13,15 @@
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/actlabs/act-labs-form-planner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/actlabs/act-labs-form-planner#readme",
+  "description": ""
 }

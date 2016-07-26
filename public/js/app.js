@@ -42,7 +42,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
         }).error(function(data, status, headers, config) {
           console.log("No Post");
         });
-
+        $scope.comparegraph = $scope.graphdata;
+        $scope.comparelist = $scope.listed;
         jq('#savemodal').modal('show');
       // console.log(dates);
       // jq('#thisdiv').load(document.URL +  ' #thisdiv');
@@ -106,6 +107,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
       }
       else {
         $scope.tempconst = {
+          "fromid": $scope.newfrom,
+          "toid": $scope.newto,
           "type": $scope.newtype,
           "from": $scope.tempfrom,
           "to": $scope.tempto,
@@ -137,6 +140,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
       $scope.tempfrom = $filter('date')($scope.stockfrom, "yyyy-MM");
       // console.log("available:"+$scope.available);
       $scope.tempconst = {
+        "fromid": $scope.stockfrom,
+        "toid": "-",
         "type": $scope.stocktype,
         "from": $scope.tempfrom,
         "to": "-",
@@ -203,9 +208,12 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $scope.invokeeditcnst = function(index) {
       $scope.currcnstindex = index;
       $scope.edit = true;
+      $scope.newtype = $scope.listed[$scope.currindex].constraints[index].type;
+      $scope.newfrom = $scope.listed[$scope.currindex].constraints[index].fromid;
+      $scope.newto = $scope.listed[$scope.currindex].constraints[index].toid;
+      $scope.newquant = $scope.listed[$scope.currindex].constraints[index].quantity;
+      $scope.available = $scope.listed[$scope.currindex].constraints[index].available;
       jq('#addcnst').modal('show');
-
-
       // $scope.editcnst();
     };
 
@@ -216,6 +224,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
       console.log("edit executing");
       $scope.tempfrom = $filter('date')($scope.newfrom, "yyyy-MM");
       $scope.tempto = $filter('date')($scope.newto, "yyyy-MM");
+      $scope.listed[$scope.currindex].constraints[index].fromid = $scope.newfrom;
+      $scope.listed[$scope.currindex].constraints[index].toid = $scope.newto;
       $scope.listed[$scope.currindex].constraints[index].type = $scope.newtype;
       $scope.listed[$scope.currindex].constraints[index].from = $scope.tempfrom;
       $scope.listed[$scope.currindex].constraints[index].to = $scope.tempto;
@@ -304,6 +314,11 @@ controller('ListCtrl', function($scope, $filter, $http) {
     jq("#addcnst").on("hidden.bs.modal", function () {
       // console.log("hey");
       $scope.edit = false;
+      $scope.newtype='';
+      $scope.newto='';
+      $scope.newfrom='';
+      $scope.newquant='';
+      $scope.available = false;
       // console.log($scope.edit);
     });
 
