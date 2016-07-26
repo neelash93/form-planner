@@ -110,7 +110,7 @@
 							</div>
 							<div class="list-group">
 								<div ng-repeat="const in listed[currindex].constraints">
-									<div class="row list-group-item {{const.type}}s {{const.status}}s">
+									<div class="row list-group-item {{const.type}}s">
 										<div class="col-xs-8 col-sm-9">
 											<span ng-if="const.available"><i class="glyphicon glyphicon-refresh" aria-hidden="true"></i> </span> Type: <span ng-if="const.restock"><b>Restock</b></span><span ng-if="!const.restock"><b>Consume</b></span> &emsp; Qty: <b>{{const.quantity}}</b> &emsp; From: <b>{{const.from}}</b> &emsp; To: <b>{{const.to}}</b>
 										</div>
@@ -130,7 +130,7 @@
 							</div>
 							<div class="list-group">
 								<div ng-repeat="discnst in listed[currindex].disabled">
-									<div class="row list-group-item reds disableds">
+									<div class="row list-group-item {{discnst.type}}s">
 									<div class="col-xs-8 col-sm-9">
 										<span ng-if="discnst.available"><i class="glyphicon glyphicon-refresh" aria-hidden="true"></i> </span> Type: <span ng-if="discnst.restock"><b>Restock</b></span><span ng-if="!discnst.restock"><b>Consume</b></span> &emsp; Qty: <b>{{discnst.quantity}}</b> &emsp; From: <b>{{discnst.from}}</b> &emsp; To: <b>{{discnst.to}}</b>
 									</div>

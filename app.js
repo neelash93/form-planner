@@ -5,12 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var basicAuth = require('basic-auth-connect');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
+
+app.use(basicAuth(function(user, pass) {
+ return user === 'actlabs' && pass === 'formplanner';
+}));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
