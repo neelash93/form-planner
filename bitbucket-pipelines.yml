@@ -2,7 +2,7 @@ image: python:3.5.1
 
 pipelines:
   branches:
-    dev:
+    master:
       - step:
           script:
             - apt-get update # required to install zip
