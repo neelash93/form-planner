@@ -11,30 +11,39 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $scope.newred='';
     $scope.newwhite='';
     $scope.newblue='';
-
+    $scope.changes = 0;
+    $scope.scenario = 0;
+    // $scope.getdata();
 
 //get data from files
+
+$scope.getdata = function() {
     $http.get('/ajax/mainlist.json').
         success(function(data, status, headers, config) {
-            $scope.listed=data;
-            $scope.comparelist = data;
-            console.log($scope.listed);
+            $scope.wholelist=data;
+            $scope.listed = $scope.wholelist[$scope.scenario];
         }).error(function(data, status, headers, config) {
     });
-
 
     $http.get('/ajax/graphdata.json').
         success(function(data, status, headers, config) {
-            $scope.graphdata=data;
-            $scope.comparegraph=data;
+            $scope.wholegraphdata=data;
+            $scope.graphdata = $scope.wholegraphdata[$scope.scenario];
         }).error(function(data, status, headers, config) {
     });
+};
 
+$scope.getdata();
+$scope.$watch('scenario', function() {
+  $scope.getdata();
+});
 //Save Progress && Reset
     $scope.saveall = function () {
+      $scope.wholelist[$scope.scenario] = $scope.listed;
+      $scope.wholegraphdata[$scope.scenario] = $scope.graphdata;
       $scope.param = {
-        "list": $scope.listed,
-        "graph": $scope.graphdata
+        "list": $scope.wholelist,
+        "graph": $scope.wholegraphdata
       };
       $http.post('/', $scope.param).
         success(function(data, status, headers, config) {
@@ -44,6 +53,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
         });
         $scope.comparegraph = $scope.graphdata;
         $scope.comparelist = $scope.listed;
+        $scope.changes = 0;
         jq('#savemodal').modal('show');
       // console.log(dates);
       // jq('#thisdiv').load(document.URL +  ' #thisdiv');
@@ -76,6 +86,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
       $scope.newblue='';
       jq('#reset').modal('hide');
       $scope.selected = 0;
+      $scope.changes = 0;
+
     };
 
 
@@ -84,8 +96,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $scope.addToList = function(newact) {
       $scope.item = {
         "name": newact,
-        "constraints": [],
-        "disabled": []
+        "constraints": []
       };
       $scope.listed.push($scope.item);
       // $scope.disabledlist.push($scope.item);
@@ -95,6 +106,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
       // console.log($scope.disabledlist[$scope.currindex]);
 
       jq('#addact').modal('hide');
+      $scope.changes = 1;
 
     };
 
@@ -112,7 +124,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
           "type": $scope.newtype,
           "from": $scope.tempfrom,
           "to": $scope.tempto,
-          "status": "enabled",
+          "status": true,
           "quantity": $scope.newquant,
           "months" : $scope.getmonthdiff(),
           "typeid": $scope.gettypeid($scope.newtype),
@@ -132,6 +144,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
         $scope.addtograph($scope.tempconst, $scope.tempconst.quantity);
         $scope.startindex = 99;
         $scope.looptill = 99;
+        $scope.changes = 1;
 
     }
     };
@@ -145,7 +158,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
         "type": $scope.stocktype,
         "from": $scope.tempfrom,
         "to": "-",
-        "status": "enabled",
+        "status": true,
         "quantity": $scope.stockquant,
         "months" : "-",
         "typeid": $scope.gettypeid($scope.stocktype),
@@ -162,6 +175,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
       $scope.listed[$scope.currindex].constraints.push($scope.tempconst);
       $scope.addtograph($scope.tempconst, $scope.tempconst.quantity);
       $scope.startindex = 99;
+      $scope.changes = 1;
       $scope.looptill = 99;
     };
 
@@ -173,33 +187,31 @@ controller('ListCtrl', function($scope, $filter, $http) {
       console.log($scope.listed[index]);
       $scope.selected = 0;
       angular.forEach($scope.listed[index].constraints, function(item) {
-        $scope.tempquant = (-1)*(item.quantity);
-        $scope.addtograph(item, $scope.tempquant);
-        $scope.startindex = 99;
-        $scope.looptill = 99;
+        if(item.status == true) {
+          $scope.tempquant = (-1)*(item.quantity);
+          $scope.addtograph(item, $scope.tempquant);
+          $scope.startindex = 99;
+          $scope.looptill = 99;
+        }
       });
       $scope.listed.splice(index, 1);
       $scope.currindex = '';  // Have to add more to function. Delete all constraints and free resources
+      $scope.changes = 1;
 
     };
 
     $scope.delcnst = function(index) {
       // console.log($scope.listed[$scope.currindex].constraints[index]);
       // $scope.tempquant = $scope.listed[$scope.currindex].constraints[index].quantity;
-      $scope.tempquant = (-1)*($scope.listed[$scope.currindex].constraints[index].quantity)
+      $scope.tempquant = (-1)*($scope.listed[$scope.currindex].constraints[index].quantity);
       // console.log("tempquant : "+$scope.tempquant);
-      $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.tempquant);
-      $scope.startindex = 99;
-      $scope.looptill = 99;
+      if($scope.listed[$scope.currindex].constraints[index].status == true) {
+        $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.tempquant);
+        $scope.startindex = 99;
+        $scope.looptill = 99;
+      }
       $scope.listed[$scope.currindex].constraints.splice(index, 1);
-
-    };
-
-    $scope.disableddelcnst = function(index) {
-      // console.log($scope.disabledlist[$scope.currindex].constraints[index]);
-      console.log($scope.listed[$scope.currindex].disabled[index]);
-      // $scope.disabledlist[$scope.currindex].constraints.splice(index, 1)
-      $scope.listed[$scope.currindex].disabled.splice(index, 1);
+      $scope.changes = 1;
 
     };
 
@@ -218,9 +230,11 @@ controller('ListCtrl', function($scope, $filter, $http) {
     };
 
     $scope.editcnst = function(index) {
-      $scope.addtograph($scope.listed[$scope.currindex].constraints[index], -$scope.listed[$scope.currindex].constraints[index].quantity);
-      $scope.startindex = 99;
-      $scope.looptill = 99;
+      if ($scope.listed[$scope.currindex].constraints[index].status == true) {
+        $scope.addtograph($scope.listed[$scope.currindex].constraints[index], -$scope.listed[$scope.currindex].constraints[index].quantity);
+        $scope.startindex = 99;
+        $scope.looptill = 99;
+      }
       console.log("edit executing");
       $scope.tempfrom = $filter('date')($scope.newfrom, "yyyy-MM");
       $scope.tempto = $filter('date')($scope.newto, "yyyy-MM");
@@ -234,43 +248,39 @@ controller('ListCtrl', function($scope, $filter, $http) {
       $scope.listed[$scope.currindex].constraints[index].months = $scope.getmonthdiff();
       $scope.listed[$scope.currindex].constraints[index].available = $scope.available;
       console.log($scope.listed[$scope.currindex].constraints[index]);
-      $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.listed[$scope.currindex].constraints[index].quantity);
-      $scope.startindex = 99;
-      $scope.looptill = 99;
+      if ($scope.listed[$scope.currindex].constraints[index].status == true) {
+        $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.listed[$scope.currindex].constraints[index].quantity);
+        $scope.startindex = 99;
+        $scope.looptill = 99;
+      }
       jq('#addcnst').modal('hide');
       $scope.newtype='';
       $scope.newto='';
       $scope.newfrom='';
       $scope.newquant='';
       $scope.edit = false;
+      $scope.changes = 1;
       $scope.available = false;
     }; // Have to add more code related to graph manipulation
 
 
 
 //Enable Disable Functions
-    $scope.setdisable = function(index) {
-        console.log("invoking setdisable");
-        $scope.listed[$scope.currindex].constraints[index].status = 'disabled';
-        // $scope.disabledlist[$scope.currindex].constraints.push($scope.listed[$scope.currindex].constraints[index]);
-        $scope.listed[$scope.currindex].disabled.push($scope.listed[$scope.currindex].constraints[index]);
-        // console.log($scope.disabledlist[$scope.currindex].constraints);
-        console.log($scope.listed[$scope.currindex].constraints);
-        console.log($scope.listed[$scope.currindex].disabled);
-        $scope.delcnst(index);
-    };
 
-
-    $scope.setenable = function(index) {
-      console.log("invoking setenable");
-      // $scope.disabledlist[$scope.currindex].constraints[index].status = 'enabled';
-      $scope.listed[$scope.currindex].disabled[index].status = 'enabled';
-      // $scope.listed[$scope.currindex].constraints.push($scope.disabledlist[$scope.currindex].constraints[index]);
-      $scope.listed[$scope.currindex].constraints.push($scope.listed[$scope.currindex].disabled[index]);
-      $scope.addtograph($scope.listed[$scope.currindex].disabled[index], $scope.listed[$scope.currindex].disabled[index].quantity);
-      $scope.startindex = 99;
-      $scope.looptill = 99;
-      $scope.disableddelcnst(index);
+    $scope.toggle = function(index) {
+      console.log("initila status:" +$scope.listed[$scope.currindex].constraints[index].status);
+      if($scope.listed[$scope.currindex].constraints[index].status == true) {
+          $scope.listed[$scope.currindex].constraints[index].status = false;
+          $scope.tempquant = (-1)*($scope.listed[$scope.currindex].constraints[index].quantity);
+          $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.tempquant);
+          console.log("removed from graph or disabled");
+      }
+      else {
+        $scope.listed[$scope.currindex].constraints[index].status = true;
+        $scope.addtograph($scope.listed[$scope.currindex].constraints[index], $scope.listed[$scope.currindex].constraints[index].quantity);
+        console.log("added to graph or enabled");
+      }
+      $scope.changes = 1;
     };
 
 
@@ -323,10 +333,93 @@ controller('ListCtrl', function($scope, $filter, $http) {
     });
 
     window.onbeforeunload = function () {
-    if($scope.comparegraph != $scope.graphdata || $scope.comparelist != $scope.listed) {
-      return '';
+    if($scope.changes == 1) {
+      return 'Exit without saving?';
     }
   };
+
+  $scope.scenariolist = [
+        {
+            "id": 0,
+            "label": "Scenario 1"
+        },
+        {
+            "id": 1,
+            "label": "Scenario 2"
+        },
+        {
+            "id": 2,
+            "label": "Scenario 3"
+        },
+        {
+            "id": 3,
+            "label": "Scenario 4"
+        }
+  ];
+
+  $scope.scenariowhole = $scope.scenariolist[0];
+  $scope.scenario = $scope.scenariowhole.id
+
+$scope.getscenariotemp = function() {
+  // $scope.scenario = $scope.scenariomain.id;
+  // $scope.changes = 0;
+  if($scope.scenariowhole.id == $scope.scenario) {
+    console.log("same page switch");
+  }
+  else {
+    if($scope.changes == 1) {
+      jq('#leavescenario').modal({backdrop:'static', keyboard:false, show:true});
+    }
+    else {
+      $scope.nosaveswitch();
+    }
+  }
+//  = $scope.scenario;
+// console.log(document.getElementsByName("scenarios").value);
+
+  // $scope.scenario = document.getElementsByName("scenarios").value;
+};
+
+
+$scope.saveswitch = function () {
+  $scope.saveall();
+  $scope.nosaveswitch();
+};
+
+$scope.nosaveswitch = function() {
+  $scope.scenario = $scope.scenariowhole.id;
+  $scope.changes = 0;
+  jq('#leavescenario').modal({backdrop:'static', keyboard:false, show:false});
+  jq('#leavescenario').modal('hide');
+};
+
+$scope.cancelswitch = function() {
+  $scope.scenariowhole = $scope.scenariolist[$scope.scenario];
+  jq('#leavescenario').modal({backdrop:'static', keyboard:false, show:false});
+  jq('#leavescenario').modal('hide');
+
+
+};
+
+
+$scope.tempmethod = function() {
+  if($scope.changes == 1) {
+    // jq('#leavescenario').modal({
+    //     backdrop: 'static',
+    //     keyboard: false
+    // });
+    jq('#leavescenario').modal('hide');
+
+  }
+  else {
+    $scope.nosaveswitch();
+  }
+};
+
+$scope.tempnosaveswitch = function() {
+  $scope.scenario = document.getElementsByName("scenarios").value;
+  console.log($scope.scenario);
+};
 
 //Updating Graph Function
 
@@ -362,6 +455,8 @@ controller('ListCtrl', function($scope, $filter, $http) {
             return true;
           }
         });
+        $scope.startindex = 99;
+        $scope.looptill = 99;
     };
 
 

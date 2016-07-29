@@ -15,6 +15,15 @@
     border: none;
     cursor: pointer;
 }*/
+.disableds {
+  text-decoration: line-through;
+}
+
+select#scenarios {
+  border: 0px;
+  outline: none;
+  font-size: 30px;
+}
 
 .dropdown {
     position: relative;
