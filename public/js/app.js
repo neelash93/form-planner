@@ -86,7 +86,7 @@ $scope.$watch('scenario', function() {
       $scope.newblue='';
       jq('#reset').modal('hide');
       $scope.selected = 0;
-      $scope.changes = 0;
+      $scope.changes = 1;
 
     };
 
