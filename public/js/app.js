@@ -70,7 +70,10 @@ $scope.$watch('scenario', function() {
       if($scope.newwhite == '' || $scope.newwhite == null) {
         $scope.newwhite = 30;
       }
-      $scope.arr = [$scope.newred,$scope.newblue,$scope.newwhite];
+      if($scope.neworange == '' || $scope.neworange == null) {
+        $scope.neworange = 30;
+      }
+      $scope.arr = [$scope.newred,$scope.newblue,$scope.newwhite,$scope.neworange];
       angular.forEach($scope.listed, function(item) {
         $scope.listed = [];
       });
@@ -84,6 +87,7 @@ $scope.$watch('scenario', function() {
       $scope.newred='';
       $scope.newwhite='';
       $scope.newblue='';
+      $scope.neworange='';
       jq('#reset').modal('hide');
       $scope.selected = 0;
       $scope.changes = 1;
@@ -308,8 +312,12 @@ $scope.$watch('scenario', function() {
         $scope.tempid = 1;
         console.log($scope.tempid)
       }
-      else {
+      else if(type == "white") {
         $scope.tempid = 2;
+        console.log($scope.tempid)
+      }
+      else {
+        $scope.tempid = 3;
         console.log($scope.tempid)
       };
       return $scope.tempid;
@@ -389,6 +397,7 @@ $scope.saveswitch = function () {
 $scope.nosaveswitch = function() {
   $scope.scenario = $scope.scenariowhole.id;
   $scope.changes = 0;
+  $scope.selected = 0;
   jq('#leavescenario').modal({backdrop:'static', keyboard:false, show:false});
   jq('#leavescenario').modal('hide');
 };
@@ -420,6 +429,33 @@ $scope.tempnosaveswitch = function() {
   $scope.scenario = document.getElementsByName("scenarios").value;
   console.log($scope.scenario);
 };
+
+
+
+//Focus Functions
+jq('#addact').on('shown.bs.modal', function () {
+    jq("#txtactname").focus();
+});
+
+jq('#addcnst').on('shown.bs.modal', function () {
+    jq("#type").focus();
+});
+
+jq('#addstock').on('shown.bs.modal', function () {
+    jq("#stocktype").focus();
+});
+
+jq('#savemodal').on('shown.bs.modal', function () {
+    jq("#saveok").focus();
+});
+
+jq('#leavescenario').on('shown.bs.modal', function () {
+    jq("#leavesave").focus();
+});
+
+jq('#reset').on('shown.bs.modal', function () {
+    jq("#newred").focus();
+});
 
 //Updating Graph Function
 
