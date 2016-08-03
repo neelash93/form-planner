@@ -12,7 +12,7 @@ controller('ListCtrl', function($scope, $filter, $http) {
     $scope.newwhite='';
     $scope.newblue='';
     $scope.changes = 0;
-    $scope.scenario = 0;
+    // $scope.scenario = 0;
     // $scope.getdata();
 
 //get data from files
@@ -292,6 +292,12 @@ $scope.$watch('scenario', function() {
 
 //Extra Functions
 
+    $scope.import = function(get) {
+      $scope.listed = $scope.wholelist[get];
+      $scope.graphdata = $scope.wholegraphdata[get];
+      $scope.changes = 1;
+    };
+
     $scope.getmonthdiff = function() {
       $scope.tempfromyear=$filter('date')($scope.newfrom, "yyyy");
       $scope.temptoyear=$filter('date')($scope.newto, "yyyy");
@@ -382,10 +388,6 @@ $scope.getscenariotemp = function() {
       $scope.nosaveswitch();
     }
   }
-//  = $scope.scenario;
-// console.log(document.getElementsByName("scenarios").value);
-
-  // $scope.scenario = document.getElementsByName("scenarios").value;
 };
 
 
@@ -410,25 +412,6 @@ $scope.cancelswitch = function() {
 
 };
 
-
-$scope.tempmethod = function() {
-  if($scope.changes == 1) {
-    // jq('#leavescenario').modal({
-    //     backdrop: 'static',
-    //     keyboard: false
-    // });
-    jq('#leavescenario').modal('hide');
-
-  }
-  else {
-    $scope.nosaveswitch();
-  }
-};
-
-$scope.tempnosaveswitch = function() {
-  $scope.scenario = document.getElementsByName("scenarios").value;
-  console.log($scope.scenario);
-};
 
 
 

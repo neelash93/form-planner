@@ -62,9 +62,10 @@
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<div class="col-xs-10 col-lg-11">
-					<h1 class="page-header">	<select required ng-change="getscenariotemp()" ng-model="scenariowhole" ng-options="value as value.label for value in scenariolist" name="scenarios" id="scenarios">
-							<option selected value=0>Scenario 1</option>{{scenariowhole}}
+				<div class="row page-header">
+					<div class="col-xs-7 col-lg-8">
+						<h1><select required ng-change="getscenariotemp()" ng-model="scenariowhole" ng-options="value as value.label for value in scenariolist" name="scenarios" id="scenarios">
+							<option selected value=0>Scenario 1</option>{{scenario}}
 							<option value=1>Scenario 2</option>
 							<option value=2>Scenario 3</option>
 							<option value=3>Scenario 4</option>
@@ -75,10 +76,21 @@
 							<option id="2" value=2>Scenario 3</option>
 							<option id="3" value=3>Scenario 4</option>
 						</select></h1> -->
+					</div>
+					<div class="col-xs-5 col-lg-4" style="top:22px">
+						<div class="dropdown">
+							<button style="padding-bottom:5px" class="btn btn-primary btn-sm">Import from <i class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></i></button>
+							<div class="dropdown-content">
+								<a href="#" ng-click="import(0)">Scenario 1</a>
+								<a href="#" ng-click="import(1)">Scenario 2</a>
+								<a href="#" ng-click="import(2)">Scenario 3</a>
+								<a href="#" ng-click="import(3)">Scenario 4</a>
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reset">Reset/Set Initial</button>
+					</div>
 				</div>
-				<div class="col-xs-2 col-lg-1">
-					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reset">Reset/Set Initial</button>
-				</div>
+				<!-- <hr> -->
 
 				<div class="row">
 					<div class="col-md-3">
