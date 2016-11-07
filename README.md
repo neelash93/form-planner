@@ -6,9 +6,7 @@ Currently, the application is restricted to 4 different scenarios, and each scen
 
 ACTLabs Form Planner is currently hosted at 'http://form-planner.actlabs.org'  
 
-The website offers basic authorization. You will not be able to access them unless you enter the correct credentials. They are:  
-**username:** actlabs  
-**password:** formplanner
+The website offers basic authorization. You will not be able to access them unless you enter the correct credentials.  
 
 # **Technologies Used**  
 
@@ -29,27 +27,24 @@ Initially, each of the three resources (Red, Blue, White) are set to 30, for eac
 ## **Reset resources/ Set Initial**:  
 This button allows the user to reset the entire progress made so far, and also gives the option to set the initial availability of resources. If left blank, the resources get automatically initialized to 30.
 
-![Screen Shot 2016-07-29 at 12.04.57 PM.png](https://bitbucket.org/repo/B4Mqpj/images/1702607164-Screen%20Shot%202016-07-29%20at%2012.04.57%20PM.png)
 
 ## **Add Activity**:  
 Initially, for any scenario, no activities exist. Activities are basically groups of constraints. Users have to click the 'Add Activity' button, and specify its name to add an activity. Creating an empty activity does not affect the graph. 
 
 ## **Add Constraint**:
 Constraints are the conditions that utilize the resources and cause changes in the graph. The application supports two types of constraints, which can be selected from the dropdown list that appears on hovering on the 'Add Constraints' button. 
-
-![Screen Shot 2016-07-29 at 12.17.29 PM.png](https://bitbucket.org/repo/B4Mqpj/images/2795278029-Screen%20Shot%202016-07-29%20at%2012.17.29%20PM.png)  
-
+  
+  
 * **Consume**:  
-Clicking this pops up a dialogue box as shown below. Currently, application allows adding resources from June 2016 - December 2021. If the user wants that the resource be made available after the end date, he can do so by clicking on the checkbox. This type of constraint consumes resources, resulting in a decrease in the corresponding graph value.  
-![Screen Shot 2016-07-29 at 12.22.41 PM.png](https://bitbucket.org/repo/B4Mqpj/images/1540783897-Screen%20Shot%202016-07-29%20at%2012.22.41%20PM.png)  
-
+Clicking this pops up a dialogue box. Currently, application allows adding resources from June 2016 - December 2021. If the user wants that the resource be made available after the end date, he can do so by clicking on the checkbox. This type of constraint consumes resources, resulting in a decrease in the corresponding graph value.  
+  
+  
 * **Restock**:  
 Clicking this pops up a similar dialogue box as before, but without the End Date and the checkbox. This type of constraint adds resources to the inventory from the period specified, resulting in an increase in the corresponding graph value.  
 
 ### **Editing Constraints**:  
-![Screen Shot 2016-07-29 at 12.42.04 PM.png](https://bitbucket.org/repo/B4Mqpj/images/2875430744-Screen%20Shot%202016-07-29%20at%2012.42.04%20PM.png)
-
-On adding a constraint, it is automatically reflected in the graph. Whether the resources will be available after the end date is represented by the ![Screen Shot 2016-07-29 at 12.38.11 PM.png](https://bitbucket.org/repo/B4Mqpj/images/3740122963-Screen%20Shot%202016-07-29%20at%2012.38.11%20PM.png) icon. The user has the option to:  
+  
+On adding a constraint, it is automatically reflected in the graph. Whether the resources will be available after the end date is represented by the 'refresh' icon. The user has the option to:  
 
 * **Disbable Constraint**:  
 On clicking this, the constraint will be temporarily disabled. The graph will be updated accordingly. Disabled Constraints will be struck out in the list.  
@@ -67,6 +62,5 @@ The entire activity can be deleted by clicking :heavy_minus_sign: next to it. Cl
 Any changes made in the activity or the constraints have to be saved before leaving the page, or switching scenarios. The application will pop up a confirmation box, when the user tries to leave the page or switch scenarios with any unsaved changes. Clicking on the 'Save' button permanently overwrites the changes made, and any prior state cannot be recovered.  
 
 ### **Switch Scenarios**:  
-![Screen Shot 2016-07-31 at 4.25.44 PM.png](https://bitbucket.org/repo/B4Mqpj/images/3205403414-Screen%20Shot%202016-07-31%20at%204.25.44%20PM.png)  
   
 This list contains 4 different scenarios to choose from. Each scenario is completely independent of the other. On switching to another scenario, all unsaved changes are lost.
